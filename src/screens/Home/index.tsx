@@ -37,7 +37,7 @@ export function Home() {
     return (
         <View style={styles.container}>
             <Text style={styles.eventName}>
-                Nome do evento
+                Lista de Desenvolvedores
             </Text>
 
             <Text style={styles.eventDate}>
