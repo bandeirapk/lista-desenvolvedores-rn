@@ -3,14 +3,20 @@ import { View, Text, TouchableOpacity } from "react-native";
 
 import { styles } from './styles';
 
-export function Participant() {
+type Props = {
+    name: string;
+    onRemove: () => void;
+}
+
+export function Participant({ name, onRemove }: Props) { // Passando o tipo usando a tipagem do TS
     return (
         <View style={styles.container}>
             <Text style={styles.name}>
-                Antonio Bandeira
+                {name}
             </Text>
             <TouchableOpacity
                 style={styles.button}
+                onPress={onRemove}
             >
                 <Text style={styles.buttonText}>
                     -
