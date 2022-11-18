@@ -1,31 +1,37 @@
-import React from 'react';
-import { Text, View, TextInput, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, TextInput, TouchableOpacity, FlatList, Alert } from 'react-native';
 
 import { styles } from './styles';
 
 import { Participant } from '../../components/Participant';
 
 export function Home() {
-    const participants = ["Bandeira", "Jonas", "Raquel", "Bellda", "João", "José"];
+    const [participants, setParticipants] = useState<string[]>([]);
+    const [participantName, setParticipantName] = useState('');
 
     function handleParticipantAdd() {
-        if (participants.includes("Bandeira")) {
+        if (participants.includes(participantName)) {
             return Alert.alert("Participante existente", "Já existe um participante na lista com esse nome!")
         }
+
+        setParticipants(prevState => [...prevState, participantName])
+        setParticipantName('')
     }
 
     function handleParticipantRemove(name: string) {
         Alert.alert("Remover", `Remove o participante ${name}?`, [
             {
                 text: 'Sim',
-                onPress: () => Alert.alert("Deletado!", `Participante ${name}, removido com sucesso!`)
+                onPress: () => {
+                    setParticipants((prevState) => prevState.filter(participant => participant !== name))
+                    Alert.alert("Removido", `O participante ${name} foi removido com sucesso.`)
+                }
             },
             {
                 text: 'Não',
                 style: 'cancel'
             }
         ])
-        console.log(`Você clicou em remover o participante: ${name}`)
     }
 
     return (
@@ -42,6 +48,8 @@ export function Home() {
                     style={styles.input}
                     placeholder='Nome do participante'
                     placeholderTextColor='#6b6b6b'
+                    onChangeText={(event) => setParticipantName(event)}
+                    value={participantName}
                 />
 
                 <TouchableOpacity
